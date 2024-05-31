@@ -67,23 +67,24 @@ func (pq *PriorityQueue) Push(value int) {
 }
 
 func (pq *PriorityQueue) getChildIndex(leftChildIndex, rightChildIndex int) int {
-	if leftChildIndex < 0 || leftChildIndex >= pq.Len() || rightChildIndex < 0 || rightChildIndex >= pq.Len() {
+	if leftChildIndex < 0 || leftChildIndex >= pq.Len() {
 		return -1
 	}
 
+	index := leftChildIndex
 	if pq.heapType == "min" {
-		if pq.heap[leftChildIndex] < pq.heap[rightChildIndex] {
-			return leftChildIndex
+		if rightChildIndex < pq.Len() && pq.heap[leftChildIndex] > pq.heap[rightChildIndex] {
+			index = rightChildIndex
 		}
 
-		return rightChildIndex
+		return index
 	}
 
-	if pq.heap[leftChildIndex] > pq.heap[rightChildIndex] {
-		return leftChildIndex
+	if rightChildIndex < pq.Len() && pq.heap[leftChildIndex] < pq.heap[rightChildIndex] {
+		index = rightChildIndex
 	}
 
-	return rightChildIndex
+	return index
 }
 
 // bubbleDown is a helper function that do the process of downheapify in the heap
